@@ -1,4 +1,4 @@
-const Figure = require('../models/figure')
+const { Figure } = require('../models/')
 
 figuresController = {};
 
@@ -25,7 +25,6 @@ figuresController.create = (request, response) => {
 			throw error
 		})
 }
-
 
 
 module.exports = figuresController;

@@ -20,7 +20,7 @@ app.use(bodyParser.json())
 
 app.get('/figures', figuresController.index)
 app.post('/figures', figuresController.create)
-	
+
 
 // Set app to listen on port
 
