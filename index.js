@@ -1,7 +1,12 @@
-// Setup
+// Requires
 
 const express = require('express')
 const bodyParser = require('body-parser')
+
+const db = require('./queries')
+
+
+// Setup express.js
 
 const app = express()
 
@@ -14,12 +19,7 @@ app.use(bodyParser.json())
 
 // Routes
 
-app.get('/', (request, response) => {
-	response.json({
-		message: 'Hello World!'
-	})
-})
-
+app.get('/', db.figuresIndex)
 
 
 // Set app to listen on port
