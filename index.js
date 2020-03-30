@@ -18,8 +18,9 @@ app.use(bodyParser.json())
 
 // Routes
 
-app.get('/', figuresController.index)
-
+app.get('/figures', figuresController.index)
+app.post('/figures', figuresController.create)
+	
 
 // Set app to listen on port
 

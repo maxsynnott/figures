@@ -7,7 +7,17 @@ const Figure = class {
 	}
 
 	static all() {
-		return pool.query('SELECT * FROM figures ORDER BY id ASC')
+		return pool.query(`
+			SELECT * FROM figures
+			ORDER BY id ASC
+		`)
+	}
+
+	static create(description, number) {
+		return pool.query(`
+			INSERT INTO figures (description, number)
+			VALUES ($1, $2)
+		`, [description, number])
 	}
 }
 
