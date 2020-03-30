@@ -2,6 +2,7 @@ const { Figure } = require('../models/')
 
 figuresController = {};
 
+
 figuresController.index = (request, response) => {
 	Figure.all()
 		.then((results) => {

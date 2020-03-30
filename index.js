@@ -3,7 +3,7 @@
 const express = require('express')
 const bodyParser = require('body-parser')
 
-const figuresController = require('./controllers/figuresController')
+const { figuresController, comparisonsController } = require('./controllers/')
 
 // Setup express.js
 
@@ -20,6 +20,8 @@ app.use(bodyParser.json())
 
 app.get('/figures', figuresController.index)
 app.post('/figures', figuresController.create)
+
+app.post('/comparisons', comparisonsController.create)
 
 
 // Set app to listen on port

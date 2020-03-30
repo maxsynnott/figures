@@ -1,6 +1,5 @@
 const pool = require('../pool')
 
-
 const Figure = {}
 
 
@@ -18,5 +17,6 @@ Figure.create = (description, number) => {
 		[description, number]
 	)
 }
+
 
 module.exports = Figure
