@@ -3,8 +3,7 @@
 const express = require('express')
 const bodyParser = require('body-parser')
 
-const db = require('./queries')
-
+const figuresController = require('./controllers/figuresController')
 
 // Setup express.js
 
@@ -19,7 +18,7 @@ app.use(bodyParser.json())
 
 // Routes
 
-app.get('/', db.figuresIndex)
+app.get('/', figuresController.index)
 
 
 // Set app to listen on port
