@@ -2,6 +2,14 @@ const db = require('../db')
 
 
 const Comparison = class {
+	constructor(args) {
+		const { id, figure_a_id, figure_b_id } = args
+
+		this.id = id
+		this.figure_a_id = figure_a_id
+		this.figure_b_id = figure_b_id
+	}
+
 	static create(figure_a_id, figure_b_id) {
 		return db.query(
 			`INSERT INTO comparisons (figure_a_id, figure_b_id)
@@ -19,7 +27,7 @@ const Comparison = class {
 			 ORDER BY RANDOM()
 			 LIMIT 1`
 		)
-		.then(results => results.rows[0])
+		.then(results => new Comparison(results.rows[0]))
 		.catch(e => console.error(e))
 	}
 
@@ -30,8 +38,47 @@ const Comparison = class {
 			 WHERE id = $1`,
 			[id]
 		)
+		.then(results => new Comparison(results.rows[0]))
+		.catch(e => console.error(e))
+	}
+
+	figure_a() {
+		return db.query(
+			`SELECT *
+			 FROM figures
+			 WHERE id = $1
+			 LIMIT 1`,
+			[this.figure_a_id]
+		)
 		.then(results => results.rows[0])
 		.catch(e => console.error(e))
+	}
+
+	figure_b() {
+		return db.query(
+			`SELECT *
+			 FROM figures
+			 WHERE id = $1
+			 LIMIT 1`,
+			[this.figure_b_id]
+		)
+		.then(results => results.rows[0])
+		.catch(e => console.error(e))
+	}
+
+	async correct_answer() {
+		let result;
+
+		const figure_a = await this.figure_a()
+		const figure_b = await this.figure_b()
+
+		return (figure_a.number >= figure_b.number) ? 'a' : 'b'
+	}
+
+	async check(answer) {
+		const correct_answer = await this.correct_answer()
+
+		return correct_answer == answer
 	}
 }
 
