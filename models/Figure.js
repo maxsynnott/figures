@@ -1,10 +1,10 @@
-const pool = require('../pool')
+const db = require('../db')
 
 const Figure = {}
 
 
 Figure.all = () => {
-	return pool.query(
+	return db.query(
 		`SELECT *
 		 FROM figures
 		 ORDER BY id ASC`
@@ -12,7 +12,7 @@ Figure.all = () => {
 }
 
 Figure.find = (id) => {
-	return pool.query(
+	return db.query(
 		`SELECT *
 		 FROM figures
 		 WHERE id = $1`,
@@ -21,7 +21,7 @@ Figure.find = (id) => {
 }
 
 Figure.create = (description, number) => {
-	return pool.query(
+	return db.query(
 		`INSERT INTO figures (description, number)
 		 VALUES ($1, $2)`,
 		[description, number]
