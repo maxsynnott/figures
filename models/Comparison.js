@@ -21,5 +21,14 @@ Comparison.sample = (n = 1) => {
 	)
 }
 
+Comparison.find = (id) => {
+	return db.query(
+		`SELECT *
+		 FROM comparisons
+		 WHERE id = $1`,
+		[id]
+	)
+}
+
 
 module.exports = Comparison

@@ -18,6 +18,7 @@ routes.post('/figures', figuresController.create)
 routes.get('/comparisons/random', comparisonsController.random)
 
 routes.post('/comparisons', comparisonsController.create)
+routes.post('/comparisons/:id/answer', comparisonsController.answer)
 
 
 module.exports = routes
