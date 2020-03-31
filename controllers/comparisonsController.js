@@ -32,14 +32,12 @@ comparisonsController.answer = async (request, response) => {
 	const comparison_id = parseInt(request.params.id)
 
 	const comparison = await Comparison.find(comparison_id)
-	
+
 	const correct = await comparison.check(answer)
 
 	await Answer.create(comparison_id, correct)
- 
-	const message = correct ? 'Correct' : 'False'
 
-	response.status(201).send(message)
+	response.status(201).json({ correct: correct })
 }
 
 
