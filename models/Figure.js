@@ -11,6 +11,15 @@ Figure.all = () => {
 	)
 }
 
+Figure.find = (id) => {
+	return pool.query(
+		`SELECT *
+		 FROM figures
+		 WHERE id = $1`,
+		[id]
+	)
+}
+
 Figure.create = (description, number) => {
 	return pool.query(
 		`INSERT INTO figures (description, number)
