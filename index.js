@@ -1,31 +1,29 @@
-// Requires
+// Requirements
 
 const express = require('express')
+
 const bodyParser = require('body-parser')
 
-const { figuresController, comparisonsController } = require('./controllers/')
+const routes = require('./routes')
 
-// Setup express.js
+
+// Setup express.js/middleware
 
 const app = express()
-
-const port = 3000
 
 app.use(bodyParser.urlencoded({ extended: true }))
 
 app.use(bodyParser.json())
 
 
-// Routes
+// Use routes
 
-app.get('/figures', figuresController.index)
-app.post('/figures', figuresController.create)
-
-app.get('/comparisons/random', comparisonsController.random)
-app.post('/comparisons', comparisonsController.create)
+app.use(routes)
 
 
 // Set app to listen on port
+
+const port = 3000
 
 app.listen(port, () => {
 	console.log(`App running on port ${port}.`)
