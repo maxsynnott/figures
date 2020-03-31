@@ -5,7 +5,8 @@ const Figure = {}
 
 Figure.all = () => {
 	return pool.query(
-		`SELECT * FROM figures
+		`SELECT *
+		 FROM figures
 		 ORDER BY id ASC`
 	)
 }

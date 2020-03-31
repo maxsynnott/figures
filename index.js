@@ -21,6 +21,7 @@ app.use(bodyParser.json())
 app.get('/figures', figuresController.index)
 app.post('/figures', figuresController.create)
 
+app.get('/comparisons/random', comparisonsController.random)
 app.post('/comparisons', comparisonsController.create)
 
 

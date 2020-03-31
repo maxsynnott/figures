@@ -15,5 +15,15 @@ comparisonsController.create = (request, response) => {
 		})
 }
 
+comparisonsController.random = (request, response) => {
+	Comparison.sample()
+		.then((results) => {
+			response.status(200).json(results.rows)
+		})
+		.catch((error) => {
+			throw error
+		})
+}
+
 
 module.exports = comparisonsController;
