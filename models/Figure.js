@@ -9,15 +9,20 @@ Figure.all = () => {
 		 FROM figures
 		 ORDER BY id ASC`
 	)
+	.then(results => results.rows)
+	.catch(e => console.error(e))
 }
 
 Figure.find = (id) => {
 	return db.query(
 		`SELECT *
 		 FROM figures
-		 WHERE id = $1`,
+		 WHERE id = $1
+		 LIMIT 1`,
 		[id]
 	)
+	.then(results => results.rows[0])
+	.catch(e => console.error(e))
 }
 
 Figure.create = (description, number) => {
@@ -26,6 +31,8 @@ Figure.create = (description, number) => {
 		 VALUES ($1, $2)`,
 		[description, number]
 	)
+	.then(results => results)
+	.catch(e => console.error(e))
 }
 
 

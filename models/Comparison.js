@@ -9,16 +9,19 @@ Comparison.create = (figure_a_id, figure_b_id) => {
 		 VALUES ($1, $2)`,
 		[figure_a_id, figure_b_id]
 	)
+	.then(results => results)
+	.catch(e => console.error(e))
 }
 
-Comparison.sample = (n = 1) => {
+Comparison.sample = () => {
 	return db.query(
 		`SELECT *
 		 FROM comparisons
 		 ORDER BY RANDOM()
-		 LIMIT $1`,
-		[n]
+		 LIMIT 1`
 	)
+	.then(results => results.rows[0])
+	.catch(e => console.error(e))
 }
 
 Comparison.find = (id) => {
@@ -28,6 +31,8 @@ Comparison.find = (id) => {
 		 WHERE id = $1`,
 		[id]
 	)
+	.then(results => results.rows[0])
+	.catch(e => console.error(e))
 }
 
 

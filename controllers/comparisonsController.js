@@ -3,27 +3,30 @@ const { Comparison, Figure, Answer } = require('../models/')
 comparisonsController = {};
 
 
-comparisonsController.create = (request, response) => {
+comparisonsController.create = async (request, response) => {
 	const { figure_a_id, figure_b_id } = request.body
 
-	Comparison.create(figure_a_id, figure_b_id)
-		.then(results => response.status(201).send(`Comparison added`))
-		.catch(e => console.error(e))
+	await Comparison.create(figure_a_id, figure_b_id)
+
+	response.status(201).send("Comparison added")
 }
 
-comparisonsController.random = (request, response) => {
-	Comparison.sample()
-		.then(async (results) => {
-			const { id, figure_a_id, figure_b_id } = results.rows[0]
+comparisonsController.random = async (request, response) => {
+	const comparison = await Comparison.sample()
 
-			const payload = { id: id }
+	console.log(comparison)
 
-			await Figure.find(figure_a_id).then(results => payload.a = results.rows[0].description).catch(e => console.error(e))
-			await Figure.find(figure_b_id).then(results => payload.b = results.rows[0].description).catch(e => console.error(e))
+	const { id, figure_a_id, figure_b_id } = comparison
 
-			response.status(200).json(payload)
-		})
-		.catch(e => console.error(e))
+	const payload = { id: id }
+
+	const figure_a = await Figure.find(figure_a_id)
+	const figure_b = await Figure.find(figure_b_id)
+
+	payload.a = figure_a.description
+	payload.b = figure_b.description
+
+	response.status(200).json(payload)
 }
 
 comparisonsController.answer = async (request, response) => {
@@ -32,27 +35,24 @@ comparisonsController.answer = async (request, response) => {
 
 	let correct;
 
-	await Comparison.find(comparison_id).then(async (results) => {
-		const { figure_a_id, figure_b_id } = results.rows[0]
+	const comparison = await Comparison.find(comparison_id)
 
-		const numbers = []
+	const { figure_a_id, figure_b_id } = comparison
 
-		await Figure.find(figure_a_id).then(results => numbers.push(results.rows[0].number)).catch(e => console.error(e))
-		await Figure.find(figure_b_id).then(results => numbers.push(results.rows[0].number)).catch(e => console.error(e))
+	const figure_a = await Figure.find(figure_a_id)
+	const figure_b = await Figure.find(figure_b_id)
 
-		if (answer == 'a') {
-			correct = numbers[0] >= numbers[1]
-		} else if (answer == 'b') {
-			correct = numbers[1] >= numbers[0]
-		}
-	})
+	if (answer == 'a') {
+		correct = figure_a.number >= figure_b.number
+	} else if (answer == 'b') {
+		correct = figure_b.number >= figure_a.number
+	}
 
-	Answer.create(comparison_id, correct)
-		.then((results) => {
-			const message = correct ? 'Correct' : 'False'
-			response.status(201).send(message)
-		})
-		.catch(e => console.error(e))
+	await Answer.create(comparison_id, correct)
+
+	const message = correct ? 'Correct' : 'False'
+
+	response.status(201).send(message)
 }
 
 

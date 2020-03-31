@@ -8,6 +8,8 @@ Answer.create = (comparison_id, correct) => {
 		 VALUES ($1, $2)`,
 		[comparison_id, correct]
 	)
+	.then(results => results)
+	.catch(e => console.error(e))
 }
 
 module.exports = Answer

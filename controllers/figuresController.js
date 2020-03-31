@@ -3,24 +3,18 @@ const { Figure } = require('../models/')
 figuresController = {};
 
 
-figuresController.index = (request, response) => {
-	Figure.all()
-		.then((results) => {
-			const figures = results.rows
+figuresController.index = async (request, response) => {
+	const figures = await Figure.all()
 
-			response.status(200).json(figures)
-		})
-		.catch(e => console.error(e))
+	response.status(200).json(figures)
 }
 
-figuresController.create = (request, response) => {
+figuresController.create = async (request, response) => {
 	const { description, number } = request.body
 
-	Figure.create(description, number)
-		.then((results) => {
-			response.status(201).send(`Figure added`)
-		})
-		.catch(e => console.error(e))
+	await Figure.create(description, number)
+
+	response.status(201).send("Figure added")
 }
 
 
