@@ -1,4 +1,4 @@
-const { Comparison } = require('../models/')
+const { Comparison, Figure } = require('../models/')
 
 comparisonsController = {};
 
@@ -10,19 +10,22 @@ comparisonsController.create = (request, response) => {
 		.then((results) => {
 			response.status(201).send(`Comparison added`)
 		})
-		.catch((error) => {
-			throw error
-		})
+		.catch(e => console.error(e))
 }
 
 comparisonsController.random = (request, response) => {
 	Comparison.sample()
-		.then((results) => {
-			response.status(200).json(results.rows)
+		.then(async (results) => {
+			const { id, figure_a_id, figure_b_id } = results.rows[0]
+
+			const payload = { id: id }
+
+			await Figure.find(figure_a_id).then(results => payload.a = results.rows[0].description).catch(e => console.error(e))
+			await Figure.find(figure_b_id).then(results => payload.b = results.rows[0].description).catch(e => console.error(e))
+
+			response.status(200).json(payload)
 		})
-		.catch((error) => {
-			throw error
-		})
+		.catch(e => console.error(e))
 }
 
 

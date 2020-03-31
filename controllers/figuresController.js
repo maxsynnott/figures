@@ -10,9 +10,7 @@ figuresController.index = (request, response) => {
 
 			response.status(200).json(figures)
 		})
-		.catch((error) => {
-			throw error
-		})
+		.catch(e => console.error(e))
 }
 
 figuresController.create = (request, response) => {
@@ -22,9 +20,7 @@ figuresController.create = (request, response) => {
 		.then((results) => {
 			response.status(201).send(`Figure added`)
 		})
-		.catch((error) => {
-			throw error
-		})
+		.catch(e => console.error(e))
 }
 
 
