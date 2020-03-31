@@ -4,8 +4,11 @@ const express = require('express')
 
 const { figuresController, comparisonsController } = require('./controllers/')
 
+const cors = require('cors')
+
 const routes = express()
 
+routes.use(cors())
 
 // Figures routes
 

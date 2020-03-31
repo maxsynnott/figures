@@ -12,6 +12,8 @@ comparisonsController.create = async (request, response) => {
 }
 
 comparisonsController.random = async (request, response) => {
+	console.log('random request')
+	
 	const comparison = await Comparison.sample()
 
 	const { id, figure_a_id, figure_b_id } = comparison
